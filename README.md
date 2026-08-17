@@ -542,41 +542,6 @@ JOIN workspace.gold.FactBookings fb ON a.DimAirportsKey = fb.DimAirportsKey
 GROUP BY a.airport_name, a.city, a.country
 ORDER BY total_bookings DESC;
 ```
-
----
-
-## 🔮 Future Enhancements
-
-- [ ] **Real-time Streaming**: Convert to continuous DLT pipeline
-- [ ] **Advanced SCD**: Implement SCD Type 2 for historical tracking
-- [ ] **Data Quality Dashboard**: Visualize DLT expectation metrics
-- [ ] **MLflow Integration**: Add predictive models (booking forecasting)
-- [ ] **Orchestration**: Migrate to Databricks Workflows for end-to-end automation
-- [ ] **Monitoring**: Add alerting for pipeline failures and SLA breaches
-- [ ] **Testing**: Unit tests for transformation logic
-- [ ] **CI/CD**: Databricks Asset Bundles for deployment automation
-
----
-
-## 📝 Notes
-
-### Performance Considerations
-- Tables are stored as **Delta format** for ACID transactions
-- **Photon engine** accelerates Spark queries
-- Consider **Z-ordering** on frequently filtered columns:
-  ```sql
-  OPTIMIZE workspace.gold.FactBookings ZORDER BY (booking_date, DimFlightsKey);
-  ```
-
-### Data Quality Monitoring
-- DLT tracks expectation metrics in `event_log`
-- Query violation counts:
-  ```sql
-  SELECT * FROM event_log 
-  WHERE event_type = 'flow_progress' 
-    AND details:flow_progress.data_quality.dropped_records > 0;
-  ```
-
 ---
 
 ## 📧 Contact
