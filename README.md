@@ -546,21 +546,10 @@ ORDER BY total_bookings DESC;
 
 ## 📧 Contact
 
-**Author**: Alvin Wong  
+**Author**: Alvin Wong Jia Hern  
 **Email**: alvinwongjh2006@gmail.com  
-**LinkedIn**: [Connect with me](https://www.linkedin.com/in/alvin-wong)  
+**LinkedIn**: [Connect with me]((https://www.linkedin.com/in/wong-j-a10061237/)  
 **GitHub**: [View my projects](https://github.com/alvinwongjh2006)
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
----
-
-⭐ **If you found this project helpful, please give it a star!**
-
----
-
-*Built with ❤️ on Databricks*
