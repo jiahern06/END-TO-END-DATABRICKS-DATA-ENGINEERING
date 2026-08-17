@@ -21,7 +21,9 @@
 
 ## 🎯 Overview
 
-This project implements a **production-ready, scalable data engineering pipeline** for processing flight booking data on Databricks. It follows the **Medallion Architecture** (Bronze → Silver → Gold) and demonstrates best practices in:
+This project implements a **production-ready, scalable data engineering pipeline** for processing flight booking data on Databricks. It follows the **Medallion Architecture** (Bronze → Silver → Gold) with **Delta Live Tables (DLT)**, **Structured Streaming**, and **Change Data Capture (CDC)**.
+
+### Key Highlights
 
 - ✅ **Incremental data ingestion** using Auto Loader
 - ✅ **Streaming ETL** with Delta Live Tables (DLT)
@@ -43,18 +45,18 @@ Airlines and travel platforms need to process millions of booking transactions, 
 ## 🏗️ Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         MEDALLION ARCHITECTURE                          │
-└─────────────────────────────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         MEDALLION ARCHITECTURE                             │
+└────────────────────────────────────────────────────────────────────────────┘
 
-┌──────────────┐       ┌──────────────┐       ┌──────────────┐       ┌──────────────┐
-│              │       │              │       │              │       │              │
-│  RAW LAYER   │──────▶│ BRONZE LAYER │──────▶│ SILVER LAYER │──────▶│  GOLD LAYER  │
-│              │       │              │       │              │       │              │
-│  CSV Files   │ Auto  │ Raw Delta    │  DLT  │  Cleansed    │ Star  │ Fact & Dim   │
-│  in Volumes  │Loader │   Tables     │ +CDC  │   Tables     │Schema │   Tables     │
-│              │       │              │       │              │       │              │
-└──────────────┘       └──────────────┘       └──────────────┘       └──────────────┘
+┌──────────────┐       ┌──────────────┐       ┌──────────────┐       ┌────────────┐
+│              │       │              │       │              │       │            │
+│  RAW LAYER   │──────▶│ BRONZE LAYER │──────▶│ SILVER LAYER │──────▶│ GOLD LAYER │
+│              │       │              │       │              │       │            │
+│  CSV Files   │ Auto  │ Raw Delta    │  DLT  │  Cleansed    │ Star  │ Fact & Dim │
+│  in Volumes  │Loader │   Tables     │ +CDC  │   Tables     │Schema │  Tables    │
+│              │       │              │       │              │       │            │
+└──────────────┘       └──────────────┘       └──────────────┘       └────────────┘
       │                      │                       │                      │
       │                      │                       │                      │
       ▼                      ▼                       ▼                      ▼
@@ -143,6 +145,8 @@ workspace (catalog)
 ---
 
 ## 🔄 Data Pipeline Flow
+
+![DLT Pipeline Architecture](./dlt_pipeline_flow.png)
 
 ### 1️⃣ **Raw to Bronze Layer** (Auto Loader)
 
@@ -548,8 +552,7 @@ ORDER BY total_bookings DESC;
 
 **Author**: Alvin Wong Jia Hern  
 **Email**: alvinwongjh2006@gmail.com  
-**LinkedIn**: [Connect with me]((https://www.linkedin.com/in/wong-j-a10061237/)  
+**LinkedIn**: [Connect with me](https://www.linkedin.com/in/wong-j-a10061237/)  
 **GitHub**: [View my projects](https://github.com/alvinwongjh2006)
 
 ---
-
