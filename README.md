@@ -60,6 +60,7 @@ Airlines and travel platforms need to process millions of booking transactions, 
 ---
 
 ## 🔄 Data Pipeline Flow
+![DLT pipeline flow](dlt_pipeline_flow.png)
 
 
 ### 1️⃣ **Raw to Bronze Layer** (Auto Loader)
