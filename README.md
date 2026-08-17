@@ -42,7 +42,7 @@ Airlines and travel platforms need to process millions of booking transactions, 
 
 ## 🏗️ Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────────────┐
 │                         MEDALLION ARCHITECTURE                          │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -55,89 +55,6 @@ Airlines and travel platforms need to process millions of booking transactions, 
 │  in Volumes  │Loader │   Tables     │ +CDC  │   Tables     │Schema │   Tables     │
 │              │       │              │       │              │       │              │
 └──────────────┘       └──────────────┘       └──────────────┘       └──────────────┘
-      │                      │                       │                      │
-      │                      │                       │                      │
-      ▼                      ▼                       ▼                      ▼
-   Source                Schema              Data Quality           Analytics Ready
-    Data               Evolution            Enforcement             Dimensional Model
-                      (Rescue)              (Expectations)
-```
-
-### Layer Breakdown
-
-| Layer | Purpose | Technology | Key Features |
-|-------|---------|------------|-------------|
-| **Raw** | Landing zone for source data | Unity Catalog Volumes | CSV files from upstream systems |
-| **Bronze** | Raw ingestion with schema inference | Auto Loader + Structured Streaming | Incremental load, schema evolution, checkpointing |
-| **Silver** | Cleansed and validated data | Delta Live Tables (DLT) | Data quality rules, CDC, deduplication |
-| **Gold** | Business-ready dimensional model | Star Schema | Fact tables, dimension tables, surrogate keys |
-
----
-
-## 🛠️ Technologies
-
-- **Platform**: Databricks on AWS
-- **Compute**: Serverless Clusters (Photon-enabled)
-- **Storage**: Unity Catalog Volumes + Delta Lake
-- **Processing**: 
-  - Apache Spark (PySpark)
-  - Delta Live Tables (DLT)
-  - Structured Streaming
-- **Ingestion**: Auto Loader (cloudFiles)
-- **Data Quality**: DLT Expectations (`@dlt.expect_all_or_drop`)
-- **CDC**: `dlt.apply_changes()` with SCD Type 1
-
----
-
-## 📁 Project Structure
-
-```
-DataBricks End To End Flight Project/
-│
-├── BronzeLayer.ipynb                    # Auto Loader ingestion notebook
-├── Setup.ipynb                          # Initial catalog/volume setup
-├── SrcParameters.ipynb                  # Configuration parameters
-│
-├── DLT/
-│   └── DLT_Silver_Layer/
-│       └── transformations/
-│           └── silver_transformations.py # DLT pipeline definitions
-│
-├── GOLD_DIMS.ipynb                      # Dimension table ETL (SCD Type 1)
-├── GOLD_FACT.ipynb                      # Fact table ETL (incremental)
-└── SilverNotebook.ipynb                 # Ad-hoc silver layer queries
-
-
-📊 Unity Catalog Structure:
-
-workspace (catalog)
-├── raw (schema)
-│   └── rawvolume (volume)              # Landing zone for CSV files
-│       ├── bookings/
-│       ├── flights/
-│       ├── customers/
-│       └── airports/
-│
-├── bronze (schema)
-│   └── bronzevolume (volume)           # Raw Delta tables + checkpoints
-│       ├── bookings/
-│       ├── flights/
-│       ├── customers/
-│       └── airports/
-│
-├── silver (schema)                     # DLT managed tables
-│   ├── stage_bookings
-│   ├── silver_bookings
-│   ├── silver_flights
-│   ├── silver_passengers
-│   ├── silver_airports
-│   └── silver_business (joined view)
-│
-└── gold (schema)                       # Star schema
-    ├── FactBookings
-    ├── DimFlights
-    ├── DimPassengers
-    └── DimAirports
 ```
 
 ---
